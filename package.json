@@ -1,0 +1,21 @@
+{
+  "name": "scripts-points",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "migrate": "bun drizzle-kit generate && bun run migrations.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@mangrovedao/mgv": "^0.9.2",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.23.1",
+    "drizzle-orm": "^0.32.1",
+    "viem": "^2.18.6"
+  }
+}
