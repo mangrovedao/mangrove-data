@@ -15,6 +15,13 @@
       "when": 1722510772343,
       "tag": "0001_low_frightful_four",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1722512342024,
+      "tag": "0002_unusual_the_professor",
+      "breakpoints": true
     }
   ]
 }

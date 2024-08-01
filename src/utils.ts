@@ -233,15 +233,39 @@ export const getMarketEvents = async (
       args: { olKeyHash: market },
       event: parseAbiItem(eventAbis[eventName]),
     });
-    logs.push(...newLogs.map((x) => x.blockNumber));
-    // console.log(
-    // `Fetched ${newLogs.length} logs for event ${eventName} for market ${market} on chain ${chainData[chain].name} on blocks ${fromBlock} - ${toBlock}`
+    const uniqueEvents = new Set(newLogs.map((x) => x.blockNumber));
+    console.log(
+      `Processed ${uniqueEvents.size} events for market ${market} on chain ${chainData[chain].name} for event ${eventName}`
+    );
+    for (let eventblock of uniqueEvents) {
+      await db
+        .insert(schemas.marketEvents)
+        .values({
+          block: Number(eventblock),
+          chainId: chain,
+          market: market,
+        })
+        .onConflictDoNothing()
+        .execute();
+    }
+
+    await db
+      .insert(schemas.blocksChecked)
+      .values({
+        chainId: chain,
+        endingBlock: fromBlock,
+        type: "market_offer_logs_" + eventName + "_" + market,
+      })
+      .onConflictDoUpdate({
+        target: [schemas.blocksChecked.chainId, schemas.blocksChecked.type],
+        set: { endingBlock: fromBlock },
+      });
+
     // );
     fromBlock = toBlock + 1n;
   }
 
   return {
-    events: logs,
     endingBlock: Number(endBlock),
   };
 };
@@ -262,32 +286,13 @@ for (let key in chainData) {
 
     for (let event in eventAbis) {
       try {
-        const { events, endingBlock } = await getMarketEvents(
+        const { endingBlock } = await getMarketEvents(
           key,
           market.olKeyHash,
           event
         );
-        const uniqueEvents = new Set(events);
-
-        console.log(
-          `Processed ${uniqueEvents.size} events for market ${name} on chain ${chainData[key].name} for event ${event}`
-        );
-
-        for (let eventblock of uniqueEvents) {
-          await db
-            .insert(schemas.marketEvents)
-            .values({
-              block: Number(eventblock),
-              chainId: key,
-              market: market.olKeyHash,
-              event,
-            })
-            .onConflictDoNothing()
-            .execute();
-        }
 
         console.log(`Storing block ${endingBlock} for market ${name}`);
-
         await db
           .insert(schemas.blocksChecked)
           .values({

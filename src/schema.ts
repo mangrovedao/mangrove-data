@@ -49,7 +49,6 @@ export const marketEvents = sqliteTable(
     block: integer("block").notNull(),
     market: text("market").notNull(),
     chainId: integer("chainId").notNull(),
-    event: text("event").notNull(),
   },
   (table) => ({
     pk: primaryKey({
