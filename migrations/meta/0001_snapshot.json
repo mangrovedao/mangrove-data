@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "48041e75-74a3-4345-ac86-3dbaf2ce52d8",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "1757e94b-4b78-40c0-a6a8-0271d001db41",
+  "prevId": "48041e75-74a3-4345-ac86-3dbaf2ce52d8",
   "tables": {
     "blocksChecked": {
       "name": "blocksChecked",
@@ -65,11 +65,63 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "marketEvents": {
+      "name": "marketEvents",
+      "columns": {
+        "block": {
+          "name": "block",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "market": {
+          "name": "market",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "event": {
+          "name": "event",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "marketEvents_block_market_pk": {
+          "columns": [
+            "block",
+            "market"
+          ],
+          "name": "marketEvents_block_market_pk"
+        }
+      },
       "uniqueConstraints": {}
     },
     "markets": {
@@ -158,6 +210,13 @@
         "price": {
           "name": "price",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
