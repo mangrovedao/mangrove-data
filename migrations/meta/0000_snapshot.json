@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "48041e75-74a3-4345-ac86-3dbaf2ce52d8",
+  "id": "d980843d-293c-48c7-b9e8-4385442e753c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "blocksChecked": {
@@ -65,9 +65,129 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "books_chainId_block_market_pk": {
+          "columns": [
+            "block",
+            "chainId",
+            "market"
+          ],
+          "name": "books_chainId_block_market_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "marketEvents": {
+      "name": "marketEvents",
+      "columns": {
+        "block": {
+          "name": "block",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "market": {
+          "name": "market",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "marketEvents_block_market_pk": {
+          "columns": [
+            "block",
+            "market"
+          ],
+          "name": "marketEvents_block_market_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "marketPairs": {
+      "name": "marketPairs",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "olKeyHash1": {
+          "name": "olKeyHash1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "olKeyHash2": {
+          "name": "olKeyHash2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "token1": {
+          "name": "token1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token2": {
+          "name": "token2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "marketPairs_olKeyHash1_unique": {
+          "name": "marketPairs_olKeyHash1_unique",
+          "columns": [
+            "olKeyHash1"
+          ],
+          "isUnique": true
+        },
+        "marketPairs_olKeyHash2_unique": {
+          "name": "marketPairs_olKeyHash2_unique",
+          "columns": [
+            "olKeyHash2"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
@@ -161,11 +281,27 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "chainId": {
+          "name": "chainId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "prices_chainId_block_market_pk": {
+          "columns": [
+            "block",
+            "chainId",
+            "market"
+          ],
+          "name": "prices_chainId_block_market_pk"
+        }
+      },
       "uniqueConstraints": {}
     }
   },

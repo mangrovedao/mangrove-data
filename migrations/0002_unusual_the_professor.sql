@@ -1,1 +1,0 @@
-ALTER TABLE `marketEvents` DROP COLUMN `event`;
